@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<!--
+	TAGS, Buttons for Github profiles, Images, Align to right image
+-->
+<html>
+	<head>
+		<title>Dialog Engine for Product Information</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="static/assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" media="screen" />
+		<!--jQuery and jQuery UI with jQuery Chat-->
+	    <script type="text/javascript" src="static/jquery-1.8.3.js"></script>
+	    <script type="text/javascript" src="static/jquery-ui.js"></script>
+	    <link type="text/css" href="static/jquery.ui.chatbox.css" rel="stylesheet" />
+	    <script type="text/javascript" src="static/jquery.ui.chatbox.js"></script>
+		
+	    <script type="text/javascript">
+
+			$(document).ready(function() {
+				var box = null;
+				box = $("#chat_div").chatbox({
+					id:"User",
+	                user: { key : "value" },
+					title : "Chat Bot",
+					messageSent : function(id, user, msg) {
+					   	$("#chat_div").chatbox("option", "boxManager").addMsg(id, msg);
+						$.get( "/search?q=" + msg.replace(" ", "%20"), function( result ) {
+							var resString = "";
+							for (var i = 0 ; i < result["products"].length ; i += 1) {
+								console.log(result["products"][i]);
+								resString += result["products"][i] + "\n" 
+							}
+							if (resString == "") {
+								$("#chat_div").chatbox("option", "boxManager").addMsg("Bot", "Sorry couldn't find anything. Please be more specific!!");							
+							} else {
+								$("#chat_div").chatbox("option", "boxManager").addMsg("Bot", resString);
+							}
+						});
+	                }
+				});
+				$("#chat_div").chatbox("option", "boxManager").addMsg("Bot", "How may I help you?");
+			});
+	    </script>
+	</head>
+	<body>
+		<div id="chat_div"></div>
+
+		<!-- Header -->
+			<section id="header">
+				<div class="inner">
+					<span class="icon major fa-weixin"></span>
+					<h1>Hi, I'm <strong>Chat Bot</strong>, another fine<br />
+					dialog engine for answering your product related queries.</h1>
+					<p>Enter your queries in the chat box on your bottom right.</p>
+					<ul class="actions">
+						<li><a href="#one" class="button scrolly">Explore</a></li>
+					</ul>
+				</div>
+			</section>
+
+		<!-- One -->
+			<section id="one" class="main style1">
+				<div class="container">
+					<div class="row 150%">
+						<div class="6u 12u$(medium)">
+							
+							<p>The implementation of this project for has been divided into the following modules:</p>
+							<ul>
+								<li>Crawling and scraping the product information from <strong>Flipkart</strong>.</li>
+								<li>Processing the scraped data.</li>
+								<li>Saving the data in <strong>MongoDB</strong> (NoSql database).</li>
+								<li>Preprocessing the query.</li>
+								<li>Querying the database and extracting the relevant results.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		<!-- Two -->
+			<section id="two" class="main style2">
+				<div class="container">
+					<div class="row 150%">
+						<div class="6u 12u$(medium)">
+							<ul class="major-icons">
+								<li><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/m/mi_kattun/20150621/20150621115515.png" class="icon style1 major"></li>
+								<li><img src="https://aptonic.com/blog/wp-content/uploads/2015/08/python-logo.png" class="icon style1 major"></li>
+							</ul>
+						</div>
+						<div class="6u$ 12u$(medium)">
+							<header class="major">
+								<h2>Crawling, Scraping &amp; Processing</h2>
+							</header>
+							<p>
+								The tools used were <strong>Scrapy</strong> and <strong>BeautifulSoup</strong> for crawling the data from Flipkart's website. The categories that were scraped are <strong>mobiles, televisions, laptops, air conditioners, refrigerators</strong> and <strong>cameras</strong>. The amount of data that was extracted was around 3000 products from the above mentioned categories. <br />
+								<strong>BeautifulSoup</strong> is a python library used for extracting data from the HTML or XML pages.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		<!-- Three -->
+			<section id="three" class="main style1">
+				<div class="container">
+					<div class="row 150%">
+						<div class="6u 12u$(medium)">
+							<header class="major">
+								<h2>Data Representation</h2>
+							</header>
+							<p>
+								<strong>MongoDB</strong> is a NoSql database used for storing big data with a lot of flexibility. <br />
+								We maintain different collections for different categories of products. Ex: Mobiles and TV’s of electronics are stored in different collections, which will be advantageous while querying, once the category is known we can search in the corresponding collection. <br />
+								The primary key of each document in <strong>MongoDB</strong> is the <strong>model name</strong>.
+							</p>
+						</div>
+					</div>
+					<!-- SHIFT TO RIGHT -->
+					<!-- <div class="6u 12u$(medium)" style="align: right">
+						<ul class="major-icons">
+							<li><span class="icon style1 major fa-code"></span></li>
+						</ul>
+					</div> -->
+				</div>
+			</section>
+
+
+		<!-- Four -->
+			<section id="four" class="main style2">
+				<div class="container">
+					<div class="row 150%">
+						<div class="6u 12u$(medium)">
+							<ul class="major-icons">
+								<li><span class="icon style1 major fa-code"></span></li>
+								<li><span class="icon style2 major fa-bolt"></span></li>
+							</ul>
+						</div>
+						<div class="6u$ 12u$(medium)">
+							<header class="major">
+								<h2>Query Processing</h2>
+							</header>
+							<p>
+								We have handled two type of property based queries:
+								<ul>
+									<strong>
+										<li>Template Query</li>
+										<li>Natural Language Query</li>
+									</strong>
+								</ul>
+							</p>
+						</div>
+						<br />
+						<header class="major">
+							<h2>Approach</h2>
+						</header>
+						<ul>
+							<li>We maintain three lists namely - <strong>product name list</strong>, <strong>brand name list</strong> and <strong>property list</strong>.</li>
+							<li>We extract the brand of the product from the given query by iterating through the brand name list using <strong>edit distance algorithm</strong> which also helps in handling spelling errors or typos.</li>
+							<li>Elements of product_name list are tuples of <strong>size 3</strong> - brand, model name and category.</li>
+							<li>After the extraction of the brand name, we consider only those products from that particular brand for further processing.</li>
+							<li>For determining the exact model name and the property name, we use a similar approach but add an additional <strong>similarity measure</strong> along with the edit distance as mentioned before.</li>
+							<li>The second similarity measure is calculated by dividing the maximum length of the two strings by the number of character matches between the strings.</li>
+							<li>We take the <strong>harmonic mean</strong> of the <strong>edit distance score</strong> and the <strong>above metric</strong> to get a final similarity measure.</li>
+							<li>We take the <strong>Top 10 results</strong> for products and the <strong>best one</strong> for property.</li>
+							<li>For every product name from the top 10, we query the database and obtain respective results and display to the user.</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+		
+		<!-- Footer -->
+			<section id="footer">
+				<ul class="copyright">
+					<li>&copy; IRE, IIIT-H</li>
+				</ul>
+			</section>
+
+		<!-- Scripts -->
+			<!-- <script src="static/assets/js/jquery.min.js"></script> -->
+			<script src="static/assets/js/jquery.scrolly.min.js"></script>
+			<script src="static/assets/js/skel.min.js"></script>
+			<script src="static/assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="static/assets/js/main.js"></script>
+
+	</body>
+</html>
