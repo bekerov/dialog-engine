@@ -2,7 +2,7 @@ import pymongo
 from edit import editDistance, similarityMetric
 
 def findProduct(query):
-	client = pymongo.MongoClient('mongodb://<user>:<password>@ds023570.mlab.com:23570/dialog_system')
+	client = pymongo.MongoClient('mongodb://localhost:27017')
 	db = client.dialog_system
 
 	f = open("properties.txt", 'r')
@@ -14,6 +14,9 @@ def findProduct(query):
 
 	categories = ["tv", "mobiles", "laptops", "cameras", "ac", "fridges"]
 
+	tag_cat_map = {"t": "tv", "m": "mobiles", "l": "laptops", "c": "cameras", "a": "ac", "f": "fridges"}
+
+	# TODO ------ Get the brandList from the generated file.
 	brandList = ['apple', 'hp', 'lenovo', 'lg', 'micromax', 'samsung', 'sony', "nikon", "canon", "panasonic"]
 
 
@@ -102,16 +105,11 @@ def findProduct(query):
 	temp_prop.sort(key=lambda tup: tup[1]) 
 	temp_prop = temp_prop[0][0]
 
-	# temp_prop = temp_prop.replace(" ", "")
 	outputs = []
 	for product in temp_products:
-		if (product[1] == 'm'):
-			results = db.mobiles.find({"_id": product[0]})[0]
-			# results = session.execute(("select %s from mobiles where modelname = '%s' ") % ( temp_prop , product[0]))[0]
-		elif (product[1] == 'l'):
-			results = session.execute(("select %s from laptops where modelname = '%s' ") % ( temp_prop , product[0]))[0]
-		elif (product[1] == 't'):
-			results = session.execute(("select %s from television where modelname = '%s' ") % ( temp_prop , product[0]))[0]
-		outputs.append((product_brand.capitalize() + " " + product[0].capitalize() + ": " + results[temp_prop].capitalize()).encode('utf-8'))
-
+		results = db[tag_cat_map[product[1]]].find({"_id": product[0]})[0]
+		try:
+			outputs.append((product_brand.capitalize() + " " + product[0].capitalize() + ": " + results[temp_prop].capitalize()).encode('utf-8'))
+		except:
+			pass
 	return outputs

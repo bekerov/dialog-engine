@@ -11,7 +11,7 @@ sys.setdefaultencoding("utf-8")
 fptr = open("properties.txt","a")
 brandptr = open("brands.txt","a")
 
-client = pymongo.MongoClient('mongodb://<user>:<password>@ds023570.mlab.com:23570/dialog_system')
+client = pymongo.MongoClient('mongodb://localhost:27017')
 db = client.dialog_system
 
 propertyList = {"price": True}
@@ -69,20 +69,7 @@ def scrapeDataForItem(url, category):
 
 #  ==========================      SPIDER FOR GOING THROUGH ALL THE LINKS
 def StartSpider():
-	# categories = { "mobiles" : "tyy,4io" , "tv" : "ckf,czl" , "laptops" : "6bo,b5g", "cameras": "jek, p31", "ac" : "j9e,abm,c54"}
-	# tableStructureForMobiles = ()
-	# categories = { "laptops" : "6bo,b5g" }
-	# categories = { "mobiles" : "tyy,4io"}
 	categories = {"mobiles" : "tyy,4io" , "tv" : "ckf,czl" , "laptops" : "6bo,b5g", "cameras": "jek, p31", "ac" : "j9e,abm,c54", "fridges": "j9e,abm,hzg"}
-	# brands = ["lg","sony","samsung"] #for tv
-	#brands = ["hp","lenovo"] #for laptps
-
-	#for brand in brands:
-	 #	for catgry in categories:
-	# 		session.execute("create table"+brand+"_"+catgry+tableStructureForMobiles)
-	#categories = { "mobiles" : "tyy,4io" }
-	#categories = {"laptops" : "6bo,b5g"}
-	#brands = ["hp"]
 	LeftPartUrl = "http://www.flipkart.com/lc/pr/pv1/spotList1/spot1/productList?sid="
 	MiddlePart1Url = "&filterNone=true&start="
 	RightPartUrl = "&ajax=true&_=1458931757008"
