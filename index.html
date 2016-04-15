@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Dialog Engine by vamseems</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Dialog Engine</h1>
+      <h2 class="project-tagline">The aim of the project is to implement a dialog system, which answers the users queries related to product information.</h2>
+      <a href="https://github.com/vamseems/dialog-engine" class="btn">View on GitHub</a>
+      <a href="https://github.com/vamseems/dialog-engine/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/vamseems/dialog-engine/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="dialog-engine-for-product-information" class="anchor" href="#dialog-engine-for-product-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dialog Engine for Product Information</h1>
+
+<p>The implementation of this project for has been divided into the following modules:</p>
+
+<ul>
+<li>Crawling and scraping the product information from <strong>Flipkart</strong>.</li>
+<li>Processing the scraped data.</li>
+<li>Saving the data in <strong>MongoDB</strong> (NoSql database).</li>
+<li>Preprocessing the query.</li>
+<li>Querying the database and extracting the relevant results.</li>
+</ul>
+
+<h1>
+<a id="live-application" class="anchor" href="#live-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Live Application</h1>
+
+<p>You can find the live application hosted <a href="https://dialog-engine.herokuapp.com/" title="Permalink to Dialog Engine for Product Information">here</a>.</p>
+
+<h2>
+<a id="crawling-scraping--processing" class="anchor" href="#crawling-scraping--processing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Crawling, Scraping &amp; Processing</h2>
+
+<p>The tools used were <strong>Scrapy</strong> and <strong>BeautifulSoup</strong> for crawling the data from Flipkart's website. The categories that were scraped are <strong>mobiles, televisions, laptops, air conditioners, refrigerators</strong> and <strong>cameras</strong>. The amount of data that was extracted was around 3000 products from the above mentioned categories.<br>
+<strong>BeautifulSoup</strong> is a python library used for extracting data from the HTML or XML pages.</p>
+
+<h2>
+<a id="data-representation" class="anchor" href="#data-representation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data Representation</h2>
+
+<p><strong>MongoDB</strong> is a NoSql database used for storing big data with a lot of flexibility.<br>
+We maintain different collections for different categories of products. Ex: Mobiles and TV's of electronics are stored in different collections, which will be advantageous while querying, once the category is known we can search in the corresponding collection.<br>
+The primary key of each document in <strong>MongoDB</strong> is the <strong>model name</strong>.</p>
+
+<h2>
+<a id="query-processing" class="anchor" href="#query-processing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Query Processing</h2>
+
+<p>We have handled two type of property based queries:</p>
+
+<ul>
+<li>Template Query</li>
+<li>Natural Language Query</li>
+</ul>
+
+<h2>
+<a id="approach" class="anchor" href="#approach" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Approach</h2>
+
+<ul>
+<li>We maintain three lists namely - <strong>product name list</strong>, <strong>brand name list</strong> and <strong>property list</strong>.</li>
+<li>We extract the brand of the product from the given query by iterating through the brand name list using <strong>edit distance algorithm</strong> which also helps in handling spelling errors or typos.</li>
+<li>Elements of product_name list are tuples of <strong>size 3</strong> - brand, model name and category.</li>
+<li>After the extraction of the brand name, we consider only those products from that particular brand for further processing.</li>
+<li>For determining the exact model name and the property name, we use a similar approach but add an additional <strong>similarity measure</strong> along with the edit distance as mentioned before.</li>
+<li>The second similarity measure is calculated by dividing the maximum length of the two strings by the number of character matches between the strings.</li>
+<li>We take the <strong>harmonic mean</strong> of the <strong>edit distance score</strong> and the <strong>above metric</strong> to get a final similarity measure.</li>
+<li>We take the <strong>Top 10 results</strong> for products and the <strong>best one</strong> for property.</li>
+<li>For every product name from the top 10, we query the database and obtain respective results and display to the user.</li>
+</ul>
+
+<h2>
+<a id="tags" class="anchor" href="#tags" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tags</h2>
+
+<p><strong>#IIIT-H #IRE #Major_Project #Information_Retrieval_and_Extraction_Course #Dialog_Engine #Flipkart #NLP #StopWordDetection #Tokeniser #Tokenisation #Keywords_Identification #Crawling #Scraping #Python #MongoDB #BeatifulSoup #Scrapy</strong></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/vamseems/dialog-engine">Dialog Engine</a> is maintained by <a href="https://github.com/vamseems">vamseems</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
